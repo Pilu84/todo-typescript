@@ -11,7 +11,7 @@ export interface ListData {
 }
 
 export const TodoList = React.memo((props: TodoListProps) => {
-    
+
     const listData = props.todoListData ? Array.from(props.todoListData.values()) : [];
 
     const initialState: ListData = {
@@ -24,29 +24,27 @@ export const TodoList = React.memo((props: TodoListProps) => {
         [props]
     );
 
-    const {onChange, onSubmit} = useForm(setTodo, initialState);
-    
+    const { onChange, onSubmit } = useForm(setTodo, initialState);
+
     return (
         <>
-        {listData && listData.length !== 0 &&
-            listData.map((data, keys) => {
-                return (
-                    <div
-                        key={keys}
-                    >
-                        <p>{data}</p>
+            {listData && listData.length !== 0 &&
+                listData.map((data, keys) => {
+                    return (
+                        <div
+                            key={keys}
+                        >
+                            <p>{data}</p>
 
-                    </div>
-                )
-            })
-        }
-        <form
-         onSubmit={onSubmit}
-        >
-            <input type='text' aria-label='Name' name='listName' id='listName' onChange={onChange} placeholder={'List name'}/>
-            <button type='submit'>Save</button>
-        </form>
-        
+                        </div>
+                    )
+                })
+            }
+
+            <input type='text' aria-label='Name' name='listName' id='listName' onChange={onChange} placeholder={'List name'} />
+            <button type='submit' onClick={onSubmit}>Save</button>
+
+
         </>
     )
 })
