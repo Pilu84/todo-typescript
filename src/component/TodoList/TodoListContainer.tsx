@@ -10,8 +10,6 @@ export const TodoListContainer = (React.memo((_props: TodoListContainerProps) =>
 
     const [listData, setListData] = useState<Map<number, string> | null>(null);
 
-    console.log('hibas');
-
     const setTodoList = useCallback((data: string) => {
 
         const current = listData ? listData : new Map();
