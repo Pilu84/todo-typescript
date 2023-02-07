@@ -1,5 +1,7 @@
-import React, { useCallback } from 'react';
-import { useForm } from '../../common/hooks/useForm';
+import React, { SyntheticEvent, useCallback, useState } from 'react';
+import { SimpleButton } from '../../common/basics/simpleBtn/simpleButton';
+import { SimpleTextInput } from '../../common/basics/simpleTextInput/simpleTextIntput';
+
 
 export interface TodoListProps {
     readonly todoListData: Map<number, string> | null;
@@ -8,45 +10,69 @@ export interface TodoListProps {
 
 export interface ListData {
     listName: string | null;
+    listName2: string | null;
+}
+
+export interface FormList {
+    [index: string]: string;
 }
 
 export const TodoList = React.memo((props: TodoListProps) => {
-    
+
     const listData = props.todoListData ? Array.from(props.todoListData.values()) : [];
 
-    const initialState: ListData = {
-        listName: ''
-    };
+    const [baseData, setBaseData] = useState<FormList>({});
 
-    const setTodo = useCallback((data: ListData) => {
-        props.setTodoList(data.listName ?? '');
+    const setData = useCallback((event: SyntheticEvent<HTMLInputElement>) => {
+
+        const data = {
+            [event.currentTarget.name]: event.currentTarget.value
+        };
+
+        setBaseData(data);
     },
-        [props]
+        [setBaseData, baseData]
     );
 
-    const {onChange, onSubmit} = useForm(setTodo, initialState);
-    
+    const getData = useCallback((event: SyntheticEvent) => {
+        event.preventDefault();
+
+        console.log('a baseDAta a formban: ', baseData);
+
+        if (baseData) {
+            props.setTodoList(baseData.listName);
+        }
+    },
+        [baseData, props]
+    );
+
     return (
         <>
-        {listData && listData.length !== 0 &&
-            listData.map((data, keys) => {
-                return (
-                    <div
-                        key={keys}
-                    >
-                        <p>{data}</p>
+            {listData && listData.length !== 0 &&
+                listData.map((data, keys) => {
+                    return (
+                        <div
+                            key={keys}
+                        >
+                            <p>{data}</p>
 
-                    </div>
-                )
-            })
-        }
-        <form
-         onSubmit={onSubmit}
-        >
-            <input type='text' aria-label='Name' name='listName' id='listName' onChange={onChange} placeholder={'List name'}/>
-            <button type='submit'>Save</button>
-        </form>
-        
+                        </div>
+                    );
+                })
+            }
+
+            <SimpleTextInput
+                label={'List Name'}
+                name={'listName'}
+                getFormData={setData}
+            />
+
+            <SimpleButton
+                onClick={getData}
+                label={'Save'}
+            />
+
+
         </>
-    )
-})
+    );
+});
