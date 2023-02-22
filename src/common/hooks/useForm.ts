@@ -4,19 +4,19 @@ export const useForm = <T,>(callback: (values: T) => void, initialState: T) => {
 
     const [values, setValues] = useState(initialState);
 
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues({ ...values, [event.target.name]: event.target.value });
-    }
+    const onChange = (event: SyntheticEvent<HTMLInputElement>) => {
+        setValues({ ...values, [event.currentTarget.name]: event.currentTarget.value });
+    };
 
     const onSubmit = (event: SyntheticEvent) => {
         event.preventDefault();
         setValues(initialState);
         callback(values);
-    }
+    };
 
     return {
         onChange,
         onSubmit,
         values
     };
-}
+};

@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 import { useForm } from '../../common/hooks/useForm';
+import { SimpleButton } from '../../common/simpleBtn/simpleButton';
+import { SimpleTextInput } from '../../common/simpleTextInput/simpleTextInput';
 
 export interface TodoListProps {
     readonly todoListData: Map<number, string> | null;
@@ -43,9 +45,16 @@ export const TodoList = React.memo((props: TodoListProps) => {
                 })
             }
 
-            <input type='text' aria-label='Name' name='listName' id='listName' onChange={form.onChange} placeholder={'List name'} />
-            <button type='submit' onClick={form.onSubmit}>Save</button>
+            <SimpleTextInput
+                label={'Name'}
+                name={'listName'}
+                onChange={form.onChange}
+            />
 
+            <SimpleButton
+                label={'Save'}
+                onClick={form.onSubmit}
+            />
 
         </>
     );
