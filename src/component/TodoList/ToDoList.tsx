@@ -31,7 +31,7 @@ export const TodoList = React.memo((props: TodoListProps) => {
 
         setBaseData(data);
     },
-        [setBaseData, baseData]
+        [setBaseData]
     );
 
     const getData = useCallback((event: SyntheticEvent) => {
