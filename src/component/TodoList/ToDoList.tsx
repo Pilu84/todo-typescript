@@ -24,7 +24,9 @@ export const TodoList = React.memo((props: TodoListProps) => {
         [props]
     );
 
-    const { onChange, onSubmit } = useForm(setTodo, initialState);
+    // const { onChange, onSubmit } = useForm(setTodo, initialState);
+
+    const form = useForm(setTodo, initialState);
 
     return (
         <>
@@ -41,10 +43,10 @@ export const TodoList = React.memo((props: TodoListProps) => {
                 })
             }
 
-            <input type='text' aria-label='Name' name='listName' id='listName' onChange={onChange} placeholder={'List name'} />
-            <button type='submit' onClick={onSubmit}>Save</button>
+            <input type='text' aria-label='Name' name='listName' id='listName' onChange={form.onChange} placeholder={'List name'} />
+            <button type='submit' onClick={form.onSubmit}>Save</button>
 
 
         </>
-    )
-})
+    );
+});
