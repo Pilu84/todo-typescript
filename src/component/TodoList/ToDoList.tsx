@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useForm } from '../../common/hooks/useForm';
 import { SimpleButton } from '../../common/simpleBtn/simpleButton';
 import { SimpleTextInput } from '../../common/simpleTextInput/simpleTextInput';
@@ -31,7 +31,6 @@ export const TodoList = React.memo((props: TodoListProps) => {
         [props]
     );
 
-    // const { onChange, onSubmit } = useForm(setTodo, initialState);
 
     const form = useForm(setTodo, initialState);
 
