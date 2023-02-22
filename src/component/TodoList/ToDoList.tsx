@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { SyntheticEvent, useCallback, useState } from 'react';
 import { useForm } from '../../common/hooks/useForm';
 import { SimpleButton } from '../../common/simpleBtn/simpleButton';
 import { SimpleTextInput } from '../../common/simpleTextInput/simpleTextInput';
@@ -12,23 +12,35 @@ export interface ListData {
     listName: string | null;
 }
 
+export interface FormList {
+    [index: string]: string;
+}
+
 export const TodoList = React.memo((props: TodoListProps) => {
 
+
     const listData = props.todoListData ? Array.from(props.todoListData.values()) : [];
+
+    const [baseData, setBaseData] = useState<FormList>({});
 
     const initialState: ListData = {
         listName: ''
     };
 
-    const setTodo = useCallback((data: ListData) => {
-        props.setTodoList(data.listName ?? '');
+    const setData = useCallback((event: SyntheticEvent<HTMLInputElement>) => {
+
+        const data = {
+            [event.currentTarget.name]: event.currentTarget.value
+        };
+
+        setBaseData(data);
     },
-        [props]
+        [setBaseData]
     );
 
     // const { onChange, onSubmit } = useForm(setTodo, initialState);
 
-    const form = useForm(setTodo, initialState);
+    const form = useForm(setData, initialState);
 
     return (
         <>
@@ -41,7 +53,7 @@ export const TodoList = React.memo((props: TodoListProps) => {
                             <p>{data}</p>
 
                         </div>
-                    )
+                    );
                 })
             }
 
@@ -58,4 +70,5 @@ export const TodoList = React.memo((props: TodoListProps) => {
 
         </>
     );
+
 });
