@@ -21,26 +21,19 @@ export const TodoList = React.memo((props: TodoListProps) => {
 
     const listData = props.todoListData ? Array.from(props.todoListData.values()) : [];
 
-    const [baseData, setBaseData] = useState<FormList>({});
-
     const initialState: ListData = {
         listName: ''
     };
 
-    const setData = useCallback((event: SyntheticEvent<HTMLInputElement>) => {
-
-        const data = {
-            [event.currentTarget.name]: event.currentTarget.value
-        };
-
-        setBaseData(data);
+    const setTodo = useCallback((data: ListData) => {
+        props.setTodoList(data.listName ?? '');
     },
-        [setBaseData]
+        [props]
     );
 
     // const { onChange, onSubmit } = useForm(setTodo, initialState);
 
-    const form = useForm(setData, initialState);
+    const form = useForm(setTodo, initialState);
 
     return (
         <>
